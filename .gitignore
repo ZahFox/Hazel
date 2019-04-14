@@ -4,9 +4,13 @@ bin-int/
 .vs/
 
 # Files
-.user
+*.user
 
 # Visual Studio Files
 *.sln
 *.vcxproj
 *.vcxproj.filters
+*.vcxproj.user
+*.vcxproj
+
+*imgui.ini
