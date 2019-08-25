@@ -7,6 +7,11 @@ namespace Hazel {
 
 	Renderer::SceneData* Renderer::s_SceneData = new Renderer::SceneData;
 
+	void Renderer::Init()
+	{
+		RenderCommand::Init();
+	}
+
 	const std::string viewUniformName = "u_ViewProjection";
 	const std::string transformUniformName = "u_Transform";
 
