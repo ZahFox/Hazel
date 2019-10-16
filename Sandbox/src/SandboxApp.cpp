@@ -10,7 +10,7 @@ class ExampleLayer : public Hazel::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_SquarePosition(1.0f)
+		: Layer("Example"), m_CameraController(1280.0f / 720.0f, true), m_CameraPosition(0.0f)
 	{
 		m_VertexArray.reset(Hazel::VertexArray::Create());
 
@@ -143,60 +143,12 @@ public:
 
 	void OnUpdate(Hazel::Timestep ts) override
 	{
-		const float moveDiff = m_CameraMoveSpeed * ts;
-		const float rotDiff = m_CameraRotationSpeed * ts;
-		const float squareMoveDiff = m_SquareMoveSpeed * ts;
-
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT))
-		{
-			m_CameraPosition.x -= moveDiff;
-		}
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT))
-		{
-			m_CameraPosition.x += moveDiff;
-		}
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_UP))
-		{
-			m_CameraPosition.y += moveDiff;
-		}
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN))
-		{
-			m_CameraPosition.y -= moveDiff;
-		}
-
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
-		{
-			m_CameraRotation += rotDiff;
-		}
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
-		{
-			m_CameraRotation -= rotDiff;
-		}
-
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_J))
-		{
-			m_SquarePosition.x -= squareMoveDiff;
-		}
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_L))
-		{
-			m_SquarePosition.x += squareMoveDiff;
-		}
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_I))
-		{
-			m_SquarePosition.y += squareMoveDiff;
-		}
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_K))
-		{
-			m_SquarePosition.y -= squareMoveDiff;
-		}
-
 		Hazel::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		Hazel::RenderCommand::Clear();
 
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
+		m_CameraController.OnUpdate(ts);
 
-		Hazel::Renderer::BeginScene(m_Camera);
+		Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		const glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
 
@@ -235,13 +187,7 @@ public:
 
 	void OnEvent(Hazel::Event& event) override
 	{
-		Hazel::EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<Hazel::KeyPressedEvent>(HZ_BIND_EVENT_FN(ExampleLayer::OnKeyPressedEvent));
-	}
-
-	bool OnKeyPressedEvent(Hazel::KeyPressedEvent& event)
-	{
-		return false;
+		m_CameraController.OnEvent(event);
 	}
 
 private:
@@ -254,14 +200,10 @@ private:
 
 	Hazel::Ref<Hazel::Texture2D> m_Texture, m_ChernoLogoTexture;
 
-	Hazel::OrthographicCamera m_Camera;
+	Hazel::OrthographicCameraController m_CameraController;
 	glm::vec3 m_CameraPosition;
-	float m_CameraRotation = 0.0f;
-	float m_CameraMoveSpeed = 5.0f;
-	float m_CameraRotationSpeed = 180.0f;
 
-	glm::vec3 m_SquarePosition;
-	float m_SquareMoveSpeed = 1.0f;
+	glm::vec3 m_SquarePosition{ 1.0f };
 
 	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
