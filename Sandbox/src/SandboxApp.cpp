@@ -1,4 +1,5 @@
 #include <Hazel.h>
+#include <Hazel/Core/Entrypoint.h>
 #include "Platform/OpenGL/OpenGLShader.h"
 
 #include "imgui/imgui.h"
@@ -6,13 +7,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Sandbox2D.h"
+
 class ExampleLayer : public Hazel::Layer
 {
 public:
 	ExampleLayer()
 		: Layer("Example"), m_CameraController(1280.0f / 720.0f, true), m_CameraPosition(0.0f)
 	{
-		m_VertexArray.reset(Hazel::VertexArray::Create());
+		m_VertexArray = Hazel::VertexArray::Create();
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f,  0.0f,
@@ -47,7 +50,7 @@ public:
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
 		};
 
-		m_SquareVA.reset(Hazel::VertexArray::Create());
+		m_SquareVA = Hazel::VertexArray::Create();
 		Hazel::Ref<Hazel::VertexBuffer> squareVB;
 		squareVB.reset(Hazel::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 
@@ -175,7 +178,6 @@ public:
 		// Triangle
 		// Hazel::Renderer::Submit(m_Shader, m_VertexArray);
 		Hazel::Renderer::EndScene();
-
 	}
 
 	void OnImGuiRender() override
@@ -213,7 +215,8 @@ class Sandbox : public Hazel::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new ExampleLayer());
+		// PushLayer(new ExampleLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox()
