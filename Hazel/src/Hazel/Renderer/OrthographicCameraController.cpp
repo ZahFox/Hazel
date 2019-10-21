@@ -20,19 +20,23 @@ namespace Hazel
 
 		if (Input::IsKeyPressed(HZ_KEY_A))
 		{
-			m_CameraPosition.x -= moveDiff;
+			m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * moveDiff;
+			m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * moveDiff;
 		}
 		else if (Input::IsKeyPressed(HZ_KEY_D))
 		{
-			m_CameraPosition.x += moveDiff;
+			m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * moveDiff;
+			m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * moveDiff;
 		}
 		else if (Input::IsKeyPressed(HZ_KEY_W))
 		{
-			m_CameraPosition.y += moveDiff;
+			m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * moveDiff;
+			m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * moveDiff;
 		}
 		else if (Input::IsKeyPressed(HZ_KEY_S))
 		{
-			m_CameraPosition.y -= moveDiff;
+			m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * moveDiff;
+			m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * moveDiff;
 		}
 
 		if (m_Rotation)
@@ -46,6 +50,11 @@ namespace Hazel
 			{
 				m_CameraRotation -= rotDiff;
 			}
+
+			if (m_CameraRotation > 180.0f)
+				m_CameraRotation -= 360.0f;
+			else if (m_CameraRotation <= -180.0f)
+				m_CameraRotation += 360.0f;
 
 			m_Camera.SetRotation(m_CameraRotation);
 		}

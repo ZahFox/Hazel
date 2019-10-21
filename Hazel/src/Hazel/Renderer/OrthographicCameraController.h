@@ -29,7 +29,7 @@ namespace Hazel
 		bool OnWindowResized(WindowResizeEvent& e);
 		bool m_Rotation = false;
 
-		float m_CameraRotation = 0.0f;
+		float m_CameraRotation = 0.0f; // In degrees, in the anti-clockwise direction
 		float m_CameraTranslationSpeed = 5.0f;
 		float m_CameraRotationSpeed = 180.0f;
 		float m_ZoomLevel = 1.0f;
@@ -40,3 +40,4 @@ namespace Hazel
 	};
 
 }
+

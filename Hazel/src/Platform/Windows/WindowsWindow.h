@@ -24,12 +24,14 @@ namespace Hazel {
 		bool IsVSync() const override;
 
 		inline virtual void* GetNativeWindow() const { return m_Window; }
+		
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
+		
 	private:
 		GLFWwindow* m_Window;
-		GraphicsContext* m_Context;
+		Scope<GraphicsContext> m_Context;
 
 		struct WindowData
 		{

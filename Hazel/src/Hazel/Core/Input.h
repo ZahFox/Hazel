@@ -45,7 +45,7 @@ protected:
 	virtual std::pair<float, float> GetMousePositionImpl() = 0;
 
 private:
-	static Input *s_Instance;
+	static Scope<Input> s_Instance;
 };
 
 } // namespace Hazel
