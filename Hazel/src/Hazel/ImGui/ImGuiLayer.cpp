@@ -86,10 +86,4 @@ namespace Hazel {
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
-
-	void ImGuiLayer::OnImGuiRender()
-	{
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
-	}
 }
