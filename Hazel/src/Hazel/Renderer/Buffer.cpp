@@ -5,7 +5,7 @@
 #include"Platform/OpenGL/OpenGLBuffer.h"
 
 namespace Hazel {
-	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -14,7 +14,7 @@ namespace Hazel {
 			return nullptr;
 		}
 		case RendererAPI::API::OpenGL: {
-			return new OpenGLVertexBuffer(vertices, size);
+			return CreateRef<OpenGLVertexBuffer>(vertices, size);
 		}
 		}
 
@@ -22,7 +22,7 @@ namespace Hazel {
 		return nullptr;
 	}
 
-	IndexBuffer* IndexBuffer::Create(uint32_t* vertices, uint32_t count)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* vertices, uint32_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -31,7 +31,7 @@ namespace Hazel {
 			return nullptr;
 		}
 		case RendererAPI::API::OpenGL: {
-			return new OpenGLIndexBuffer(vertices, count);
+			return CreateRef<OpenGLIndexBuffer>(vertices, count);
 		}
 		}
 
