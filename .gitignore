@@ -14,3 +14,7 @@ bin-int/
 *.vcxproj
 
 *imgui.ini
+
+*Startup.json
+*Runtime.json
+*Shutdown.json
